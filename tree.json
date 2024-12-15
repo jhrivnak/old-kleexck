@@ -1,0 +1,110 @@
+{
+    "kleexck": {
+        "assets": {
+            "audio": {
+                "MobileAlertBotIntruderAlert01.ogg": "file",
+                "creatures": {
+                    "greeter": {
+                        "greeter-beg.ogg": "file",
+                        "greeter-death.ogg": "file",
+                        "greeter-greet.ogg": "file",
+                        "greeter-oof1.ogg": "file",
+                        "greeter-oof2.ogg": "file",
+                        "greeter-oof3.ogg": "file"
+                    }
+                },
+                "effects": {
+                    "gun": {
+                        "gunshot1.ogg": "file",
+                        "gunshot2.ogg": "file",
+                        "gunshot3.ogg": "file",
+                        "gunshot4.ogg": "file",
+                        "gunshot5.ogg": "file",
+                        "gunshot6.ogg": "file",
+                        "noAmmo.ogg": "file",
+                        "reload1.ogg": "file",
+                        "reload2.ogg": "file",
+                        "reload3.ogg": "file",
+                        "reload4.ogg": "file",
+                        "reload5.ogg": "file",
+                        "reload6.ogg": "file"
+                    }
+                },
+                "music": {
+                    "home.mp3": "file",
+                    "yard.mp3": "file"
+                }
+            },
+            "images": {
+                "character": {
+                    "cutout_run-1.png": "file",
+                    "cutout_run-2.png": "file",
+                    "cutout_run-3.png": "file",
+                    "cutout_run-4.png": "file",
+                    "cutout_run-5.png": "file",
+                    "cutout_run-6.png": "file",
+                    "cutout_walk-1.png": "file",
+                    "cutout_walk-2.png": "file",
+                    "cutout_walk-3.png": "file",
+                    "cutout_walk-4.png": "file",
+                    "cutout_walk-5.png": "file",
+                    "cutout_walk-6.png": "file",
+                    "heartFull.png": "file",
+                    "heartHalf.png": "file",
+                    "mana.png": "file",
+                    "manaHalf.png": "file"
+                },
+                "creatures": {
+                    "greeter.png": "file",
+                    "half-heart.png": "file"
+                },
+                "items": {
+                    "bullet.png": "file",
+                    "bullets.png": "file",
+                    "gun.png": "file"
+                }
+            },
+            "levels": {
+                "home": {
+                    "__pycache__": {
+                        "home.cpython-312.pyc": "file"
+                    },
+                    "home.py": "file"
+                },
+                "school": {
+                    "school.png": "file"
+                },
+                "yard": {
+                    "__pycache__": {
+                        "yard.cpython-312.pyc": "file"
+                    },
+                    "yard.py": "file"
+                }
+            }
+        },
+        "main.py": "file",
+        "src": {
+            "__pycache__": {
+                "gun.cpython-312.pyc": "file"
+            },
+            "character_sheet.py": "file",
+            "gun.py": "file",
+            "hud.py": "file",
+            "world.py": "file"
+        },
+        "tools": {
+            "cutouts": {
+                "Screenshot 2024-12-14 214533.png": "file",
+                "backgroundRemover.py": "file",
+                "cutouts": {
+                    "cutout_Screenshot 2024-12-14 214533.png": "file",
+                    "mana.png": "file"
+                }
+            },
+            "tree": {
+                "tree.py": "file"
+            }
+        },
+        "tree.json": "file"
+    }
+}
