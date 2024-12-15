@@ -15,6 +15,7 @@
                 },
                 "effects": {
                     "gun": {
+                        "drop.ogg": "file",
                         "gunshot1.ogg": "file",
                         "gunshot2.ogg": "file",
                         "gunshot3.ogg": "file",
@@ -58,6 +59,9 @@
                     "greeter.png": "file",
                     "half-heart.png": "file"
                 },
+                "infrastructure": {
+                    "icon.png": "file"
+                },
                 "items": {
                     "bullet.png": "file",
                     "bullets.png": "file",
@@ -85,11 +89,20 @@
         "main.py": "file",
         "src": {
             "__pycache__": {
-                "gun.cpython-312.pyc": "file"
+                "character.cpython-312.pyc": "file",
+                "character_sheet.cpython-312.pyc": "file",
+                "greeter.cpython-312.pyc": "file",
+                "gun.cpython-312.pyc": "file",
+                "hud.cpython-312.pyc": "file",
+                "player.cpython-312.pyc": "file",
+                "world.cpython-312.pyc": "file"
             },
+            "character.py": "file",
             "character_sheet.py": "file",
+            "greeter.py": "file",
             "gun.py": "file",
             "hud.py": "file",
+            "player.py": "file",
             "world.py": "file"
         },
         "tools": {
