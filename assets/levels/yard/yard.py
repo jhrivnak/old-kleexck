@@ -18,8 +18,8 @@ class YardLevel:
                 if player.rect.colliderect(self.back_door_rect):
                     return "home"
                     
-                # Handle greeter conversation
-                if self.is_near_greeter(player, greeter) and greeter.hp > 0:
+                # Handle greeter conversation - only if alive
+                if self.is_near_greeter(player, greeter) and not greeter.is_dead:
                     if greeter.conversation_stage == 0 and greeter.text_done_1:
                         greeter.conversation_stage = 1
                         greeter.text_display_1 = ""
@@ -29,18 +29,7 @@ class YardLevel:
                         greeter.text_done_2 = False
                         greeter.played_beg_sound = False
                         greeter.show_text = True
-                        
-                    elif greeter.conversation_stage == 1 and greeter.text_done_2:
-                        greeter.conversation_stage = 2
-                        self.gun_placed = True
-                        if not gun.picked_up:
-                            gun.drop_sound.play()
-                        greeter.show_text = False
-                        
-                    elif greeter.conversation_stage == 2 and self.gun_placed and not self.bullets_placed:
-                        self.bullets_placed = True
-                        greeter.conversation_stage = 3
-                        
+                
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if gun.picked_up:
                 mx, my = pygame.mouse.get_pos()
@@ -50,20 +39,33 @@ class YardLevel:
         return None
 
     def update(self, dt, player=None, gun=None, greeter=None):
-        # Update bullets and check collisions
-        if greeter is None:  # Safety check
+        if greeter is None:
             return
             
-        for bullet in self.bullets[:]:  # Use slice to avoid modifying list while iterating
+        # Handle gun dropping when dialogue finishes
+        if greeter.text_done_2 and not self.gun_placed and greeter.conversation_stage == 1:
+            self.gun_placed = True
+            greeter.conversation_stage = 2
+            
+        # Handle empty gun case and ammo drops - only if greeter is alive
+        if (gun.picked_up and gun.current_magazine == 0 and gun.inventory_ammo == 0 and 
+            not gun.reloading and not greeter.is_dead and not self.bullets_placed):
+            greeter.show_text = True
+            greeter.show_ammo_dialogue = True
+            if greeter.text_done_3:
+                self.bullets_placed = True
+                greeter.ammo_drop_sound.play()
+                greeter.ammo_drops += 1
+        
+        # Update bullets and check collisions
+        for bullet in self.bullets[:]:
             bullet.update()
             
-            # Remove bullets that go off screen
             if (bullet.rect.x < 0 or bullet.rect.x > screen_width or 
                 bullet.rect.y < 0 or bullet.rect.y > screen_height):
                 self.bullets.remove(bullet)
                 continue
                 
-            # Check greeter collision
             if (bullet.rect.colliderect(pygame.Rect(greeter.x, greeter.y,
                                                   greeter.image.get_width(),
                                                   greeter.image.get_height()))):
@@ -73,8 +75,8 @@ class YardLevel:
                     greeter.take_damage()
         
     def is_near_greeter(self, player, greeter):
-        dist = ((player.rect.x - greeter.x)**2 + (player.y - greeter.y)**2)**0.5
-        return dist < 100
+        dist = ((player.rect.x - greeter.x)**2 + (player.rect.y - greeter.y)**2)**0.5
+        return dist < 150
         
     def draw(self, screen, player, gun, greeter):
         # Draw background
@@ -89,21 +91,31 @@ class YardLevel:
         greeter.draw(screen)
         
         # Draw items if placed
-        if greeter.conversation_stage >= 2 and self.gun_placed and not gun.picked_up:
+        if self.gun_placed and not gun.picked_up:
             screen.blit(gun.image, (greeter.x + 60, greeter.y))
             gun_label = font.render("<gun>", True, (255,255,255))
             screen.blit(gun_label, (greeter.x + 60, greeter.y - 15))
-            self.gun_rect = pygame.Rect(greeter.x + 60, greeter.y, 30, 30)
+            self.gun_rect = pygame.Rect(
+                greeter.x + 60 - 15,
+                greeter.y - 15, 
+                60,
+                60
+            )
             
             if player.rect.colliderect(self.gun_rect):
                 gun.picked_up = True
                 gun.current_magazine = gun.magazine_size
                 
-        if greeter.conversation_stage >= 3 and self.bullets_placed:
+        if self.bullets_placed:
             screen.blit(gun.bullets_image, (greeter.x + 100, greeter.y))
             ammo_label = font.render("<pistol ammo>", True, (255,255,255))
             screen.blit(ammo_label, (greeter.x + 100, greeter.y - 15))
-            self.bullets_rect = pygame.Rect(greeter.x + 100, greeter.y, 20, 20)
+            self.bullets_rect = pygame.Rect(
+                greeter.x + 100 - 15,
+                greeter.y - 15,
+                50,
+                50
+            )
             
             if player.rect.colliderect(self.bullets_rect):
                 gun.inventory_ammo += 12
@@ -115,8 +127,8 @@ class YardLevel:
             screen.blit(open_text, (self.back_door_rect.x + self.back_door_rect.width//2 - 30,
                                   self.back_door_rect.y - 20))
         
-        # Draw talk prompt if near greeter
-        if self.is_near_greeter(player, greeter) and greeter.hp > 0:
+        # Draw talk prompt ONLY if greeter is alive
+        if self.is_near_greeter(player, greeter) and not greeter.is_dead:
             talk_text = font.render("Talk [F]", True, (255,255,255))
             screen.blit(talk_text, (player.rect.x, player.rect.y - 40))
             

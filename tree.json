@@ -15,6 +15,7 @@
                 },
                 "effects": {
                     "gun": {
+                        "ammoDrop.ogg": "file",
                         "drop.ogg": "file",
                         "gunshot1.ogg": "file",
                         "gunshot2.ogg": "file",
@@ -33,6 +34,7 @@
                 },
                 "music": {
                     "home.mp3": "file",
+                    "school.mp3": "file",
                     "yard.mp3": "file"
                 }
             },
@@ -56,6 +58,7 @@
                     "manaHalf.png": "file"
                 },
                 "creatures": {
+                    "blood-splat.png": "file",
                     "greeter.png": "file",
                     "half-heart.png": "file"
                 },
@@ -70,6 +73,9 @@
             },
             "levels": {
                 "__init__.py": "file",
+                "__pycache__": {
+                    "__init__.cpython-312.pyc": "file"
+                },
                 "home": {
                     "__pycache__": {
                         "home.cpython-312.pyc": "file"
@@ -91,6 +97,7 @@
         "src": {
             "__init__.py": "file",
             "__pycache__": {
+                "__init__.cpython-312.pyc": "file",
                 "character.cpython-312.pyc": "file",
                 "character_sheet.cpython-312.pyc": "file",
                 "greeter.cpython-312.pyc": "file",
@@ -109,12 +116,9 @@
         },
         "tools": {
             "cutouts": {
-                "Screenshot 2024-12-14 214533.png": "file",
                 "backgroundRemover.py": "file",
-                "cutouts": {
-                    "cutout_Screenshot 2024-12-14 214533.png": "file",
-                    "mana.png": "file"
-                }
+                "blood.png": "file",
+                "cutouts": {}
             },
             "tree": {
                 "tree.py": "file"
