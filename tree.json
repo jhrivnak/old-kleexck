@@ -69,6 +69,7 @@
                 }
             },
             "levels": {
+                "__init__.py": "file",
                 "home": {
                     "__pycache__": {
                         "home.cpython-312.pyc": "file"
@@ -88,6 +89,7 @@
         },
         "main.py": "file",
         "src": {
+            "__init__.py": "file",
             "__pycache__": {
                 "character.cpython-312.pyc": "file",
                 "character_sheet.cpython-312.pyc": "file",
