@@ -13,8 +13,8 @@ from src.gun import Gun, Bullet
 from src.greeter import Greeter
 from src.hud import HUD
 from src.character_sheet import CharacterSheet
-from assets.levels.home.home import HomeLevel
-from assets.levels.yard.yard import YardLevel
+from src.levels.home.home import HomeLevel
+from src.levels.yard.yard import YardLevel
 
 # Initialize game
 initialize_pygame()
