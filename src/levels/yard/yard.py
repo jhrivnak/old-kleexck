@@ -1,6 +1,16 @@
 # "C:\Users\jhriv\OneDrive\Desktop\kleexck\src\levels\yard\yard.py"
-import pygame, random, time
-from src.world import screen_width, screen_height, font
+import pygame
+import os
+import sys
+
+if __name__ == "__main__":
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+    from src.world import IMG_PATH, screen_width, screen_height, font
+else:
+    try:
+        from ...world import IMG_PATH, screen_width, screen_height, font
+    except ImportError:
+        from src.world import IMG_PATH, screen_width, screen_height, font
 
 class YardLevel:
     def __init__(self):
@@ -135,3 +145,7 @@ class YardLevel:
         # Draw bullets
         for bullet in self.bullets:
             bullet.draw(screen)
+
+if __name__ == "__main__":
+    from main import run_game
+    run_game()

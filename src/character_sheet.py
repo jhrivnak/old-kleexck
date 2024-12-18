@@ -1,6 +1,9 @@
 # src/character_sheet.py
 import pygame
-from .world import font, font_large
+try:
+    from .world import font, font_large
+except ImportError:
+    from world import font, font_large
 
 class CharacterSheet:
     def __init__(self):
@@ -26,3 +29,11 @@ class CharacterSheet:
         
         inv_text = font.render("Backpack (12 slots):", True, (255,255,255))
         screen.blit(inv_text,(220,250))
+
+if __name__ == "__main__":
+    import sys
+    import os
+    # Add the project root directory to Python path
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from main import run_game
+    run_game()

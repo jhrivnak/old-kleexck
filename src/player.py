@@ -53,3 +53,10 @@ class Player:
         if not self.facing_right:
             frame_img = pygame.transform.flip(frame_img, True, False)
         screen.blit(frame_img, (self.x, self.y))
+
+if __name__ == "__main__":
+    import os
+    import sys
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from main import run_game
+    run_game()

@@ -1,6 +1,11 @@
 # src/greeter.py
-import pygame, time, random
-from .world import IMG_PATH, AUDIO_PATH, font
+import pygame
+try:
+    from .world import IMG_PATH
+except ImportError:
+    from world import IMG_PATH
+import time, random
+from .world import AUDIO_PATH, font
 
 class Greeter:
     def __init__(self, x, y):
@@ -185,3 +190,10 @@ class Greeter:
                 text_surf3 = font.render(self.text_display_3, True, (255,255,255))
                 text_rect3 = text_surf3.get_rect(midbottom=(self.x + self.image.get_width()//2, self.y - 20))
                 screen.blit(text_surf3, text_rect3)
+
+if __name__ == "__main__":
+    import sys
+    import os
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from main import run_game
+    run_game()

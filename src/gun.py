@@ -1,6 +1,16 @@
 # src/gun.py
 import pygame, math, random
-from .world import IMG_PATH, AUDIO_PATH
+import os
+import sys
+
+if __name__ == "__main__":
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from src.world import *
+else:
+    try:
+        from .world import *
+    except ImportError:
+        from world import *
 
 class Gun:
     def __init__(self):
@@ -86,3 +96,7 @@ class Bullet:
         
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+if __name__ == "__main__":
+    from main import run_game
+    run_game()

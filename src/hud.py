@@ -1,6 +1,17 @@
 # src/hud.py
 import pygame
-from .world import screen_height, screen_width, font, IMG_PATH
+import os
+import sys
+
+if __name__ == "__main__":
+    # Add the project root directory to Python path when running directly
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from src.world import *
+else:
+    try:
+        from .world import *
+    except ImportError:
+        from world import *
 
 class HUD:
     def __init__(self):
@@ -49,3 +60,7 @@ class HUD:
         if gun.picked_up and gun.current_magazine == 0 and not gun.reloading and gun.inventory_ammo > 0:
             reload_prompt = font.render("Reload [R]", True, (255,0,0))
             screen.blit(reload_prompt, (screen_width//2-50, screen_height-80))
+
+if __name__ == "__main__":
+    from main import run_game
+    run_game()

@@ -16,23 +16,21 @@ from src.character_sheet import CharacterSheet
 from src.levels.home.home import HomeLevel
 from src.levels.yard.yard import YardLevel
 
-# Initialize game
-initialize_pygame()
+def run_game():
+    # Initialize game
+    initialize_pygame()
 
-# Create game objects
-player = Player(screen_width//2, screen_height//2)
-gun = Gun()
-greeter = Greeter(200, 200)
-hud = HUD()
-character_sheet = CharacterSheet()
+    # Create game objects
+    player = Player(screen_width//2, screen_height//2)
+    gun = Gun()
+    greeter = Greeter(200, 200)
+    hud = HUD()
+    character_sheet = CharacterSheet()
 
-# Create levels
-home_level = HomeLevel()
-yard_level = YardLevel()
-current_level = home_level
-
-def main():
-    global current_level
+    # Create levels
+    home_level = HomeLevel()
+    yard_level = YardLevel()
+    current_level = home_level
     
     while True:
         dt = clock.tick(60)/1000.0
@@ -81,4 +79,4 @@ def main():
         pygame.display.flip()
 
 if __name__ == "__main__":
-    main()
+    run_game()

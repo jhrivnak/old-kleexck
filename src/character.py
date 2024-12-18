@@ -1,5 +1,6 @@
 import pygame
-
+import os
+import sys
 
 class Character:
     def __init__(self, x, y):
@@ -65,3 +66,9 @@ class Character:
                 False,
             )
         screen.blit(current_image, (self.x, self.y))
+
+if __name__ == "__main__":
+
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from main import run_game
+    run_game()
