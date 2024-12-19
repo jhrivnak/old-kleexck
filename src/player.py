@@ -1,6 +1,14 @@
 # src/player.py
 import pygame
+import time, random
 from .world import screen_width, screen_height, IMG_PATH
+try:
+    from .world import IMG_PATH
+except ImportError:
+    from world import IMG_PATH
+
+from .world import AUDIO_PATH, font
+from .gun import Gun
 
 class Player:
     def __init__(self, x, y):
@@ -12,6 +20,13 @@ class Player:
         self.health = 12
         self.mana = 6
         self.rect = pygame.Rect(x, y, 32, 32)
+        
+        # Test gun initialization
+        self.gun = Gun()
+        self.gun.picked_up = True
+        self.gun.inventory_ammo = 24
+        self.gun.current_magazine = 6
+        
         self.load_animations()
         
     def load_animations(self):
@@ -47,16 +62,17 @@ class Player:
             self.last_frame_change = pygame.time.get_ticks()
             self.current_frame = (self.current_frame + 1) % 6
             
+        if keys[pygame.K_r] and self.gun is not None:
+            self.gun.reload()
+        
     def draw(self, screen):
         frames = self.run_frames if self.running else self.walk_frames
         frame_img = frames[self.current_frame] if (self.rect.x != self.x or self.rect.y != self.y) else frames[0]
         if not self.facing_right:
             frame_img = pygame.transform.flip(frame_img, True, False)
         screen.blit(frame_img, (self.x, self.y))
-
+        
+        
 if __name__ == "__main__":
-    import os
-    import sys
-    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from main import run_game
     run_game()

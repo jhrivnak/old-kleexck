@@ -1,0 +1,17 @@
+{
+    "revolver": {
+        "name": "$2 Pistol",
+        "magazine_size": 6,
+        "reload_time": 2.0,
+        "reload_interval": 0.4,
+        "starting_ammo": 24,
+        "image": "gun.png",
+        "bullet_image": "bullet.png",
+        "sound_effects": {
+            "shoot": "gunshot",
+            "reload": "reload",
+            "no_ammo": "noAmmo",
+            "drop": "drop"
+        }
+    }   
+} 

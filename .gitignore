@@ -10,6 +10,7 @@ src/greeter/__pycache__/
 src/hud/__pycache__/
 src/character_sheet/__pycache__/
 .pyc
+.cpython-312.pyc
 .rar
 .zip
 .7z
@@ -21,3 +22,5 @@ notes.txt
 .lzma
 .lz4
 .lz
+src/__pycache__/gun.cpython-312.pyc
+src/__pycache__/player.cpython-312.pyc
