@@ -1,7 +1,7 @@
 {
     "revolver": {
         "name": "$2 Pistol",
-        "magazine_size": 6,
+        "magazine_size": 12,
         "reload_time": 2.0,
         "reload_interval": 0.4,
         "starting_ammo": 24,

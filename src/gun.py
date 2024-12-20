@@ -38,31 +38,29 @@ class Gun:
         self.reload_sounds = [pygame.mixer.Sound(f"{AUDIO_PATH}effects/gun/reload{i}.ogg") 
                             for i in range(1, 7)]
         self.no_ammo_sound = pygame.mixer.Sound(f"{AUDIO_PATH}effects/gun/noAmmo.ogg")
-        self.drop_sound = pygame.mixer.Sound(f"{AUDIO_PATH}effects/gun/drop.ogg")  # Add this line
+        self.drop_sound = pygame.mixer.Sound(f"{AUDIO_PATH}effects/gun/drop.ogg")  
         
     def reload(self):
-        print("Reload method called")
-        print(f"Gun state - picked_up: {self.picked_up}, current_magazine: {self.current_magazine}, inventory_ammo: {self.inventory_ammo}")
         
         if not self.picked_up:
-            print("Can't reload: Gun not picked up")
+         #   print("Can't reload: Gun not picked up")
             return
         if self.reloading:
-            print("Already reloading")
+           # print("Already reloading")
             return
         if self.current_magazine >= self.magazine_size:
-            print("Magazine already full!")
+         #   print("Magazine already full!")
             return
         
         needed = self.magazine_size - self.current_magazine
         if self.inventory_ammo <= 0:
-            print("No ammo available to reload")
+        #    print("No ammo available to reload")
             return
         
         if self.inventory_ammo < needed:
             needed = self.inventory_ammo
         
-        print(f"Starting reload: {needed} bullets")
+      # print(f"Starting reload: {needed} bullets")
         self.bullets_to_load = needed  # Store how many bullets we'll add
         self.inventory_ammo -= needed  # Subtract from inventory immediately
         self.reloading = True
@@ -102,7 +100,7 @@ class Gun:
                 self.reload_sounds[self.reload_segment].play()
                 
             if elapsed >= self.reload_total_time:
-                print("Reload complete!")
+                #print("Reload complete!")
                 self.current_magazine += self.bullets_to_load  # Add bullets only when reload is complete
                 self.reloading = False
                 self.reload_segment = 0
