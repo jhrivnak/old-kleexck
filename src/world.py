@@ -9,6 +9,10 @@ pygame.mixer.init()
 # Screen setup
 screen_width, screen_height = 800, 600
 screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Kleexck")
+icon = pygame.image.load("assets/images/infrastructure/icon.png")
+pygame.display.set_icon(icon)
+
 clock = pygame.time.Clock()
 
 # Fonts

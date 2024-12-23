@@ -1,10 +1,11 @@
 {
     "revolver": {
-        "name": "$2 Pistol",
-        "magazine_size": 12,
+        "id": 1,
+        "name": "Revolver",
+        "magazine_size": 6,
         "reload_time": 2.0,
         "reload_interval": 0.4,
-        "starting_ammo": 24,
+        "starting_ammo": 6,
         "image": "gun.png",
         "bullet_image": "bullet.png",
         "sound_effects": {
@@ -13,5 +14,21 @@
             "no_ammo": "noAmmo",
             "drop": "drop"
         }
-    }   
-} 
+    },
+    "shotgun": {
+        "id": 2,
+        "name": "Shotgun",
+        "magazine_size": 2,
+        "reload_time": 3.0,
+        "reload_interval": 0.6,
+        "starting_ammo": 12,
+        "image": "shotgun.png",
+        "bullet_image": "shell.png",
+        "sound_effects": {
+            "shoot": "shotgun_shot",
+            "reload": "shotgun_reload",
+            "no_ammo": "noAmmo",
+            "drop": "drop"
+        }
+    }
+}

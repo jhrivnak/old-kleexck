@@ -7,13 +7,7 @@ import glob
 # List of common image extensions to process
 SUPPORTED_FORMATS = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp')
 
-def create_cutouts_folder(script_dir):
-    # Create cutouts folder in the same directory as the script
-    cutouts_dir = script_dir / "cutouts"
-    cutouts_dir.mkdir(exist_ok=True)
-    return cutouts_dir
-
-def remove_background(input_path, output_path):
+def remove_background(input_path):
     try:
         input_image = Image.open(input_path)
         
@@ -22,19 +16,19 @@ def remove_background(input_path, output_path):
             input_image = input_image.convert('RGBA')
             
         output_image = remove(input_image)
-        # Always save as PNG to preserve transparency
-        output_path = output_path.with_suffix('.png')
+        # Save the output file with the same name but with a .png extension
+        output_path = input_path.with_suffix('.png')
         output_image.save(output_path, format='PNG')
         print(f"Processed: {input_path.name}")
+        
+        # Delete the original file after processing
+        os.remove(input_path)
     except Exception as e:
         print(f"Error processing {input_path.name}: {str(e)}")
 
 def main():
     # Get the directory where the script is located
     script_dir = Path(__file__).parent.absolute()
-    
-    # Create cutouts folder
-    cutouts_dir = create_cutouts_folder(script_dir)
     
     # Get all image files in the script's directory
     image_files = []
@@ -52,10 +46,9 @@ def main():
     
     # Process each image file
     for img_path in image_files:
-        output_path = cutouts_dir / f"cutout_{img_path.stem}"
-        remove_background(img_path, output_path)
+        remove_background(img_path)
     
-    print("\nProcessing complete! Check the 'cutouts' folder for results.")
+    print("\nProcessing complete! Files have been updated in the same folder.")
 
 if __name__ == "__main__":
     main()

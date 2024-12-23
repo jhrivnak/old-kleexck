@@ -14,7 +14,7 @@ else:
 
 class YardLevel:
     def __init__(self):
-        self.back_door_rect = pygame.Rect(screen_width-110, 200, 100, 100)
+        self.back_door_rect = pygame.Rect(10, screen_height//2 - 50, 100, 200)
         self.gun_rect = None
         self.bullets_rect = None
         self.bullets_placed = False
@@ -76,7 +76,8 @@ class YardLevel:
                 self.bullets.remove(bullet)
                 continue
                 
-            if (bullet.rect.colliderect(pygame.Rect(greeter.x, greeter.y,
+            # Only check collision if greeter is alive
+            if not greeter.is_dead and (bullet.rect.colliderect(pygame.Rect(greeter.x, greeter.y,
                                                   greeter.image.get_width(),
                                                   greeter.image.get_height()))):
                 self.bullets.remove(bullet)
