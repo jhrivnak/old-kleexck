@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+      - develop
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Build
+        run: |
+          if [ ${{ github.ref }} = 'refs/heads/main' ]; then
+            npm run build:prod
+          elif [ ${{ github.ref }} = 'refs/heads/staging' ]; then
+            npm run build:staging
+          else
+            npm run build
+          fi
+          
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: build/
+          server-dir: ${{ github.ref == 'refs/heads/main' && 'public_html/' || github.ref == 'refs/heads/staging' && 'stage/' || 'dev/' }}
