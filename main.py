@@ -9,7 +9,7 @@ from src.world import (
     AUDIO_PATH
 )
 from src.player import Player 
-from src.gun import Gun, Bullet
+from src.gun import create_gun, Bullet
 from src.greeter import Greeter
 from src.hud import HUD
 from src.character_sheet import CharacterSheet
@@ -22,7 +22,7 @@ def run_game():
 
     # Create game objects
     player = Player(screen_width//2, screen_height//2)
-    gun = Gun()
+    gun = create_gun(1)
     greeter = Greeter(200, 200)
     hud = HUD()
     character_sheet = CharacterSheet()

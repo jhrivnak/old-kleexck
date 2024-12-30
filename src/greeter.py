@@ -1,11 +1,21 @@
 # src/greeter.py
 import pygame
-try:
-    from .world import IMG_PATH
-except ImportError:
-    from world import IMG_PATH
-import time, random
-from .world import AUDIO_PATH, font
+import time
+import random
+import os
+import sys
+
+if __name__ == "__main__":
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from src.world import *
+    from src.game_state import GameState
+else:
+    try:
+        from .world import *
+        from .game_state import GameState
+    except ImportError:
+        from world import *
+        from game_state import GameState
 
 class Greeter:
     def __init__(self, x, y):
@@ -49,7 +59,10 @@ class Greeter:
         self.blood_start_time = None
         self.blood_alpha = 0
         self.ammo_drops = 0
+        self.rect = pygame.Rect(x, y, 32, 32)
+        self.has_collision = True
         self.load_assets()
+        GameState.get_instance().add_entity(self)
         
     def load_assets(self):
         self.image = pygame.image.load(f"{IMG_PATH}creatures/greeter.png")
@@ -91,16 +104,19 @@ class Greeter:
                 
     def take_damage(self):
         """Called when greeter is hit by a bullet"""
-        if self.hp > 0:
+        if not self.is_dead:  # Only take damage if not already dead
             self.been_shot = True
+            self.hp -= 10
             if self.hp > 10:
                 random.choice(self.oof_sounds).play()
             else:
-                self.death_sound.play()  # It's here, should play greeter-death.ogg
+                self.death_sound.play()
                 self.fade_start = time.time()
-                self.is_dead = True
+                self.is_dead = True  # Set this BEFORE removing from entities
                 self.blood_start_time = time.time() + 1
                 self.blood_alpha = 0
+                GameState.get_instance().remove_entity(self)
+                print(f"Greeter died. is_dead={self.is_dead}, entities={len(GameState.get_instance().game_entities)}")
                 
     def draw(self, screen):
         # Draw the greeter sprite first (if alive)
