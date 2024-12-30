@@ -220,10 +220,16 @@ class Bullet:
         self.velocity = (math.cos(angle) * speed, math.sin(angle) * speed)
         self.image = pygame.transform.scale(
             pygame.image.load(f"{IMG_PATH}items/bullet.png"), (5, 5))
+        self.x = float(x)  # Store precise floating point positions
+        self.y = float(y)
         
     def update(self):
-        self.rect.x += self.velocity[0]
-        self.rect.y += self.velocity[1]
+        # Update using floating point positions for precise movement
+        self.x += self.velocity[0]
+        self.y += self.velocity[1]
+        # Update rect position from floating point position
+        self.rect.x = int(self.x)
+        self.rect.y = int(self.y)
         
     def draw(self, screen):
         screen.blit(self.image, self.rect)

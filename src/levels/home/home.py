@@ -35,12 +35,17 @@ class HomeLevel:
         self.bed = pygame.transform.scale(self.bed, (200, 100))
         self.nightstand = pygame.transform.scale(self.nightstand, (100, 100))
         
+        # Initialize bullets list
+        self.bullets = []
+        
         # Add crack rectangle for collision detection
         self.crack_rect = pygame.Rect(screen_width - 100, screen_height//2, 80, 50)
         self.showing_crack_options = False
         
         # Load door sound
         self.door_sound = pygame.mixer.Sound("assets/audio/effects/objects/door1.ogg")
+        self.alarm_sound = pygame.mixer.Sound("assets/audio/effects/objects/alarm.ogg")
+        self.bed_sound = pygame.mixer.Sound("assets/audio/effects/objects/bed.ogg")
         
         # Text animation variables
         self.current_text = ""
@@ -100,6 +105,18 @@ class HomeLevel:
                     player.inventory.add_item("crackpipe", self.crack)
                     self.crack_visible = False
                 self.showing_crack_options = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            if event.button == 1:  # Left click
+                if self.bed_object.rect.collidepoint(mouse_pos):
+                    self.bed_sound.play()
+                elif self.nightstand_object.rect.collidepoint(mouse_pos):
+                    self.alarm_sound.play()
+                # Add shooting
+                elif gun.picked_up:
+                    new_bullet = gun.shoot(mouse_pos[0], mouse_pos[1], player)
+                    if new_bullet:
+                        self.bullets.append(new_bullet)
         return None
         
     def update(self, dt, player=None):
@@ -119,7 +136,15 @@ class HomeLevel:
             self.text_char_index = 0
             if player:
                 player.speed /= 1.2  # Return to normal speed
-        
+                
+        # Update bullets
+        for bullet in self.bullets[:]:
+            bullet.update()
+            # Remove bullets that are off screen
+            if (bullet.rect.x < 0 or bullet.rect.x > screen_width or 
+                bullet.rect.y < 0 or bullet.rect.y > screen_height):
+                self.bullets.remove(bullet)
+                
     def draw_text_box(self, screen, text, options=None, width=None):
         # Fixed position at bottom of screen
         box_height = 100  # Fixed height for text box
@@ -251,6 +276,10 @@ class HomeLevel:
         self.nightstand_object.draw_hover_text(screen, mouse_pos)
         if self.crack_visible:
             self.crack_object.draw_hover_text(screen, mouse_pos)
+            
+        # Draw bullets
+        for bullet in self.bullets:
+            bullet.draw(screen)
 
 if __name__ == "__main__":
     import sys

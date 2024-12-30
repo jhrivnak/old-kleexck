@@ -1,53 +1,48 @@
 import os
 from pathlib import Path
-from rembg import remove
 from PIL import Image
-import glob
 
-# List of common image extensions to process
 SUPPORTED_FORMATS = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp')
 
-def remove_background(input_path):
+def remove_white_background(input_path):
     try:
         input_image = Image.open(input_path)
-        
-        # Convert to RGBA if the image doesn't have an alpha channel
         if input_image.mode != 'RGBA':
             input_image = input_image.convert('RGBA')
-            
-        output_image = remove(input_image)
-        # Save the output file with the same name but with a .png extension
-        output_path = input_path.with_suffix('.png')
-        output_image.save(output_path, format='PNG')
-        print(f"Processed: {input_path.name}")
         
-        # Delete the original file after processing
-        os.remove(input_path)
+        data = input_image.getdata()
+        new_data = []
+        for item in data:
+            # Replace pure white with transparency
+            if item[:3] == (255, 255, 255):
+                new_data.append((255, 255, 255, 0))
+            else:
+                new_data.append(item)
+        
+        input_image.putdata(new_data)
+        output_path = input_path.parent / f"{input_path.stem}_cutout.png"
+        input_image.save(output_path, format='PNG')
+        
+        if output_path.exists():
+            print(f"Processed: {input_path.name} -> {output_path.name}")
+            os.remove(input_path)
+        else:
+            print(f"Failed to create output for: {input_path.name}")
     except Exception as e:
         print(f"Error processing {input_path.name}: {str(e)}")
 
 def main():
-    # Get the directory where the script is located
     script_dir = Path(__file__).parent.absolute()
-    
-    # Get all image files in the script's directory
     image_files = []
     for ext in SUPPORTED_FORMATS:
         image_files.extend(list(script_dir.glob(f"*{ext}")))
-        # Also check for uppercase extensions
         image_files.extend(list(script_dir.glob(f"*{ext.upper()}")))
-    
     if not image_files:
         print(f"No image files found in: {script_dir}")
-        print(f"Supported formats: {', '.join(SUPPORTED_FORMATS)}")
         return
-    
     print(f"Found {len(image_files)} image files. Starting background removal...")
-    
-    # Process each image file
     for img_path in image_files:
-        remove_background(img_path)
-    
+        remove_white_background(img_path)
     print("\nProcessing complete! Files have been updated in the same folder.")
 
 if __name__ == "__main__":
